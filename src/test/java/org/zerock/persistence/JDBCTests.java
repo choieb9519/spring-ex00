@@ -2,6 +2,9 @@ package org.zerock.persistence;
 
 import static org.junit.Assert.*;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 import org.junit.Test;
 
 public class JDBCTests {
@@ -13,6 +16,15 @@ public class JDBCTests {
 		} catch (Exception e) {
 			fail();
 		}
+	
+		String url = "jdbc:mariadb://3.35.141.156/test";
+		String user = "root";
+		String password = "wnddkdwjdqhcjfl1";
+		
+		try (Connection con = DriverManager.getConnection(url, user, password)) {
+			assertNotNull(con);
+		} catch (Exception e) {
+			fail();
+		}
 	}
-
 }
