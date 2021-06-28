@@ -21,7 +21,7 @@ public class Ex02RestController {
 	}
 	
 	@RequestMapping("/sub02")
-	public User method2() {
+	public User method02() {
 		User user = new User();
 		user.setId("korea");
 		user.setAge(1);
@@ -37,6 +37,8 @@ public class Ex02RestController {
 		list.add("object");
 		list.add("notation");
 		return list;
+		
+//		return new String[] {"java", "script", "object", "notation"};
 	}
 	
 	@RequestMapping("/sub04")
