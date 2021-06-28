@@ -128,18 +128,3 @@ public class BoardController {
 		// forward /WEB-INF/views/board/register.jsp
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
