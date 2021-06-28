@@ -8,11 +8,10 @@ public class App {
 		String path = "core/test3/core-test3.xml";
 		ApplicationContext context = new ClassPathXmlApplicationContext(path);
 		
-		
-		
 		Hero hero = context.getBean("hero", Hero.class);
+		
 		System.out.println(hero);
-		System.out.println(hero.getSword);
+		System.out.println(hero.getSword());
 		
 		
 		System.out.println("프로그램 종료");
