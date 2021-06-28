@@ -23,13 +23,3 @@ public class Ex04RestController {
 		return var1 + ", " + var2;
 	}
 }
-
-
-
-
-
-
-
-
-
-
