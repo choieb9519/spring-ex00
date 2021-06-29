@@ -26,19 +26,3 @@ public class Ex10RestController {
 		return user;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

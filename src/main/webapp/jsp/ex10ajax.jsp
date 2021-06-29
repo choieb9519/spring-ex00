@@ -40,16 +40,3 @@ $(function() {
 </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
