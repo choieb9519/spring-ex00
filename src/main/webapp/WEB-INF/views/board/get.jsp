@@ -10,11 +10,85 @@
 <%@ include file="/WEB-INF/subModules/bootstrapHeader.jsp" %>
 
 <title>Insert title here</title>
+
+<script>
+$(function() {
+	function showReplyList(list) {
+		var container = $("#reply-list-container").empty();
+		
+		for (var reply of list) {
+			var newItem = $("<div>");
+			newItem.append("<span>" + reply.rno + ",</span>")
+				   .append("<span>" + reply.reply + ",</span>")
+				   .append("<span>" + reply.replyer + ",</span>")
+				   .append("<span>" + reply.replyDate + "</span>");
+			container.append(newItem);
+		}
+	}
+	
+	/* 댓글 목록 가져오기 */
+	function getReplyList() {
+		$.ajax({
+			type: "get",
+			url: "${appRoot}/replies/pages/${board.bno}",
+			success: function(list) {
+				console.log(list);
+				showReplyList(list);
+			},
+			error : function() {
+				console.log("댓글 가져오는 중 에러.");
+			}
+		});
+	}
+	// 페이지 로딩 후 댓글 목록 가져오는 함수 실행
+	getReplyList();
+	
+	/* 댓글 입력 버튼 처리 */
+	$("#reply-insert-btn1").click(function() {
+		var bno = $("#reply-bno-input1").val();
+		var replyer = $("#reply-replyer-input1").val();
+		var reply = $("#reply-reply-textarea1").val();
+		
+		var data = {
+			bno: bno,
+			replyer: replyer,
+			reply: reply
+		};
+		
+		$.ajax({
+			type: "post",
+			url: "${appRoot}/replies/new",
+			data: JSON.stringify(data),
+			contentType: "application/json",
+			success: function() {
+				console.log("입력 성공");
+				// 모달창 닫고
+				$("#reply-insert-modal").modal("hide");
+				// 댓글리스트 가져오고
+				getReplyList();
+				
+				// 안내 메세지 보여주기
+				$("#alert1").text("새 댓글 입력하였습니다.").addClass("show");
+			},
+			error: function() {
+				console.log("입력 실패");
+			}
+		});
+	});
+})
+
+</script>
+
+
 </head>
 <body>
 <bd:navbar></bd:navbar>
 
 <div class="container">
+
+<div id="alert1" class="alert alert-primary fade" role="alert">
+</div>
+
 	<h1>글 보기</h1>
 	
 	<div class="row">
@@ -47,16 +121,54 @@
 		</div>
 	</div>
 </div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<div id="reply-list-container">
+			
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<%-- 댓글 입력 모달 --%>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reply-insert-modal">댓글 작성</button>
+
+<div class="modal fade" id="reply-insert-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">새 댓글</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <input type="text" value="${board.bno }" readonly hidden id="reply-bno-input1">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">작성자</label>
+            <input type="text" class="form-control" id="reply-replyer-input1">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">댓글</label>
+            <textarea class="form-control" id="reply-reply-textarea1"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="reply-insert-btn1" type="button" class="btn btn-primary">댓글 입력</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
